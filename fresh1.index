@@ -1,408 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fresh — Premium Drinks & Refreshments</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Montserrat', sans-serif;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fresh — Premium Mango</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent-1:#ff9f1c;
+    --accent-2:#ff7a00;
+    --bg-1:#fff4e5;
+    --bg-2:#ffe3b8;
+    --glass: rgba(255,255,255,0.35);
+    --dark: #4b3418;
+  }
 
-    body {
-      background: #fefefe;
-      overflow-x: hidden;
-      color: #333;
-    }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:"Montserrat",sans-serif;
+    background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
+    overflow-x:hidden;
+    color:var(--dark);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    --page-fade:0;
+    animation: pageFade .9s ease forwards;
+  }
 
-    /* ✨ GLOBAL BACKGROUND ANIMATION */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(120deg, #ffe4ec, #e0ffe8, #e6f3ff, #fff3e6);
-      background-size: 400% 400%;
-      animation: gradientShift 10s ease infinite;
-      z-index: -3;
-    }
+  @keyframes pageFade{
+    from{opacity:0; transform: translateY(8px)}
+    to{opacity:1; transform:none}
+  }
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+  header{
+    position:sticky; top:0; z-index:120;
+    padding:16px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+    background: linear-gradient(90deg, rgba(255,159,28,0.95), rgba(255,122,0,0.9));
+    color:white;
+    box-shadow:0 6px 20px rgba(255,140,0,0.18);
+    backdrop-filter: blur(6px);
+  }
+  .brand{font-weight:900; font-size:20px; letter-spacing:0.6px}
+  nav a{color:white; text-decoration:none; margin-left:18px; font-weight:700}
+  nav a:hover{opacity:.95; transform:translateY(-2px)}
 
-    /* 🌊 LIGHT WAVE OVERLAY */
-    body::after {
-      content: "";
-      position: fixed;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 70%),
-                  radial-gradient(circle at 70% 70%, rgba(255,255,255,0.25), transparent 70%);
-      animation: floatGlow 18s linear infinite;
-      z-index: -2;
-    }
+  /* HERO */
+  .hero{
+    max-width:1200px;
+    margin:36px auto;
+    padding:36px 28px;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:40px;
+    align-items:center;
+    position:relative;
+  }
 
-    @keyframes floatGlow {
-      0% { transform: translate(0,0) scale(1); }
-      50% { transform: translate(30px, -30px) scale(1.05); }
-      100% { transform: translate(0,0) scale(1); }
-    }
+  /* decorative moving bubbles */
+  .bubbles{
+    position:absolute; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .bubble{
+    position:absolute; border-radius:50%; opacity:0.12; transform:translateZ(0);
+    animation: bubbleFloat linear infinite;
+    filter: blur(8px);
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.1));
+    mix-blend-mode: screen;
+  }
+  @keyframes bubbleFloat{
+    from{transform: translateY(40vh) scale(.7)}
+    to{transform: translateY(-30vh) scale(1)}
+  }
 
-    /* 🌿 ABOUT SECTION */
-    #about {
-      position: relative;
-      padding: 140px 20px;
-      overflow: hidden;
-      color: white;
-    }
+  /* left: hero image with splashes and slices */
+  .visual{
+    position:relative; z-index:5; display:flex; justify-content:center; align-items:center;
+    perspective:1000px;
+  }
 
-    #about video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(60%) saturate(120%);
-      z-index: -2;
-    }
+  .splash{
+    position:absolute; width:520px; height:520px; border-radius:50%;
+    background: radial-gradient(circle at 30% 35%, rgba(255,200,120,0.95), rgba(255,150,40,0.08) 35%, rgba(255,200,100,0.02) 60%);
+    filter: blur(28px) saturate(1.05);
+    transform: translateY(20px) scale(.9);
+    z-index:2;
+    pointer-events:none;
+    mix-blend-mode: screen;
+    transition: transform .4s ease;
+  }
 
-    #about::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.3);
-      z-index: -1;
-    }
+  .bottle-wrap{
+    position:relative; z-index:6;
+    width:100%; max-width:420px;
+    display:flex; justify-content:center; align-items:center;
+    transform-style: preserve-3d;
+    transition: transform .35s ease;
+  }
 
-    .about-content {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 50px;
-      z-index: 2;
-    }
+  .bottle{
+    width:100%; border-radius:22px; display:block;
+    box-shadow: 0 18px 50px rgba(255,140,0,0.25), 0 6px 20px rgba(80,40,0,0.06);
+    transform-origin:center;
+    transition: transform .35s cubic-bezier(.2,.9,.2,1);
+  }
+  .bottle:hover{ transform: translateY(-8px) rotateZ(-1deg) scale(1.02) }
 
-    .about-image img {
-      width: 420px;
-      border-radius: 30px;
-      box-shadow: 0 25px 40px rgba(0, 0, 0, 0.25);
-      animation: floatImg 4s ease-in-out infinite;
-    }
+  /* mango slices (repeated absolute images) */
+  .slice{
+    position:absolute; width:90px; height:90px; object-fit:cover; border-radius:14px;
+    transform-origin:center center;
+    pointer-events:none;
+    will-change:transform, opacity;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.12)) saturate(1.05) contrast(1.02);
+    mix-blend-mode: normal;
+  }
 
-    @keyframes floatImg {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
+  /* text column */
+  .content{
+    z-index:8; padding:8px 6px;
+  }
+  .kicker{display:inline-block; font-weight:900; color:var(--accent-2); background:rgba(255,255,255,0.85); padding:8px 12px; border-radius:999px; box-shadow:0 6px 20px rgba(255,150,40,0.12); margin-bottom:18px; font-size:13px}
+  h1{
+    margin:0 0 18px 0;
+    font-size:48px; line-height:1.02;
+    color: #ff7a00; text-shadow: 0 8px 24px rgba(255,140,0,0.12);
+    font-weight:900;
+  }
+  p.lead{color: #5a3c16; font-size:18px; line-height:1.7; margin:0 0 18px; max-width:650px}
 
-    .about-text {
-      max-width: 600px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 25px;
-      padding: 40px 45px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-      animation: fadeUp 1.5s ease;
-    }
+  /* info cards */
+  .cards{display:flex; gap:12px; flex-wrap:wrap; margin-top:8px}
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.45));
+    border-radius:14px; padding:14px 16px; min-width:170px;
+    box-shadow: 0 10px 30px rgba(255,145,0,0.06); border-left:6px solid var(--accent-1);
+    backdrop-filter: blur(8px);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .card:hover{ transform: translateY(-6px); box-shadow: 0 18px 48px rgba(255,140,0,0.14) }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  .card strong{display:block; color:var(--accent-2); font-weight:800; margin-bottom:6px}
 
-    .about-text h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      color: #ffeb99;
-      margin-bottom: 15px;
-    }
+  /* buttons */
+  .actions{margin-top:22px}
+  .btn{
+    display:inline-block; padding:14px 26px; border-radius:40px; text-decoration:none; font-weight:800;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    color:white; box-shadow:0 8px 30px rgba(255,120,20,0.22); margin-right:12px;
+    position:relative; overflow:hidden;
+  }
+  /* golden shine */
+  .btn:after{
+    content:""; position:absolute; left:-20%; top:-60%; width:40%; height:180%;
+    background:linear-gradient(120deg, rgba(255,255,255,0.15), rgba(255,255,255,0.55), rgba(255,255,255,0.15));
+    transform:rotate(25deg); transition: transform .7s ease;
+    pointer-events:none;
+  }
+  .btn:hover:after{ transform: translateX(300%) rotate(25deg) }
+  .btn.secondary{ background:transparent; color:var(--accent-2); border:2px solid rgba(255,138,0,0.12) }
 
-    .about-text h2 span {
-      color: #ff6b6b;
-    }
+  /* responsive */
+  @media (max-width:880px){
+    .hero{grid-template-columns:1fr; padding:28px 18px}
+    .splash{display:none}
+    h1{font-size:34px}
+    .bubble{display:none}
+  }
 
-    .about-text p {
-      color: #fff;
-      font-size: 1.1rem;
-      line-height: 1.8;
-      margin-bottom: 20px;
-    }
+  /* little floating animations for slices */
+  @keyframes floatX{
+    from{transform: translateY(0) rotate(0deg) scale(1)}
+    50%{transform: translateY(-18px) rotate(12deg) scale(.98)}
+    to{transform: translateY(0) rotate(0deg) scale(1)}
+  }
 
-    /* 🍹 PRODUCT SECTION */
-    #products {
-      padding: 120px 20px;
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
-      backdrop-filter: blur(10px);
-    }
+  /* small shadow ring */
+  .ground-glow{
+    position:absolute; bottom:-20px; width:260px; height:120px; border-radius:50%;
+    background: radial-gradient(closest-side, rgba(255,170,0,0.14), rgba(255,160,0,0.02));
+    filter: blur(18px); z-index:3; left:calc(50% - 130px)
+  }
 
-    #products h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      color: #0077b6;
-      margin-bottom: 60px;
-      position: relative;
-    }
+  /* footer stub */
 
-    #products h2::after {
-      content: '';
-      width: 100px;
-      height: 4px;
-      background: linear-gradient(45deg, #ff6b6b, #feca57);
-      position: absolute;
-      bottom: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 2px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 40px;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .product-card {
-      position: relative;
-      background: rgba(255,255,255,0.35);
-      border-radius: 25px;
-      overflow: hidden;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-      transition: all 0.4s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .product-card:hover {
-      transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-    }
-
-    .product-card img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-      border-bottom: 2px solid rgba(255,255,255,0.3);
-    }
-
-    .product-info {
-      padding: 25px;
-    }
-
-    .product-info h3 {
-      color: #ff6b6b;
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-
-    .product-info p {
-      color: #333;
-      font-size: 1rem;
-      margin-bottom: 10px;
-      line-height: 1.6;
-    }
-
-    .price {
-      font-weight: bold;
-      color: #0077b6;
-      margin-bottom: 15px;
-    }
-
-    .buy-btn {
-      display: inline-block;
-      background: linear-gradient(45deg, #ff6b6b, #feca57);
-      color: white;
-      padding: 12px 25px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
-    }
-
-    .buy-btn:hover {
-      background: linear-gradient(45deg, #ff3b3b, #ffb200);
-      transform: scale(1.08);
-      box-shadow: 0 12px 30px rgba(255, 107, 107, 0.6);
-    }
-
-    /* 🎥 PREMIUM VIDEO SECTION */
-    #video-section {
-      padding: 150px 20px;
-      text-align: center;
-      background: radial-gradient(circle at center, #fffaf0, #f0fff0, #e8f7ff);
-      background-size: 200% 200%;
-      animation: gradientShift 10s ease infinite;
-      color: #222;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #video-section::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 70%),
-                  radial-gradient(circle at 70% 70%, rgba(255,255,255,0.25), transparent 70%);
-      animation: floatGlow 20s linear infinite;
-      z-index: 0;
-    }
-
-    #video-section h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      color: #0077b6;
-      margin-bottom: 60px;
-      position: relative;
-      z-index: 2;
-    }
-
-    #video-section h2::after {
-      content: '';
-      width: 80px;
-      height: 1%;
-      background: linear-gradient(45deg, #ff6b6b, #feca57);
-      position: absolute;
-      bottom: -20px;
-      left: 40%;
-      transform: translateX(-50%);
-      border-radius: 2px;
-    }
-
-    .video-container {
-      max-width: 500px;
-      margin: 50px auto 0;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-      z-index: 2;
-      position: relative;
-    }
-
-    .video-container:hover {
-      transform: scale(1.05);
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
-    }
-
-    #video-section video {
-  width: 100%;
-  height: 420px; /* 🌟 Normal height */
-  object-fit: cover;
-  border: none;
-  display: block;
-  border-radius: 25px;
-}
-
-
-    @media (max-width: 500px) {
-      #about {
-        flex-direction: column;
-        text-align: center;
-      }
-      .about-image img {
-        width: 50%;
-      }
-      .about-text {
-        padding: 10px;
-      }
-      .about-text h2 {
-        font-size: 2.3rem;
-      }
-    }
-  </style>
+  footer{ max-width:1200px; margin:32px auto; padding:20px; color:#6b4a24; text-align:center; font-size:14px}
+</style>
 </head>
 <body>
 
-  <!-- 🌿 ABOUT SECTION WITH VIDEO BACKGROUND -->
-  <section id="about">
-    <video autoplay loop muted playsinline id="aboutVideo">
-      <source src="make.mp4" type="video/mp4">
-    </video>
+<header>
+  <div class="brand">Fresh</div>
+  <nav aria-label="Primary">
+    <a href="#">Home</a>
+    <a href="products.html">Products</a>
+    <a href="video.html">Video</a>
+  </nav>
+</header>
 
-    <div class="about-content">
-      <div class="about-image">
-        <img src="j1.png" alt="Fresh Fruit Drink">
+<section class="hero" id="hero">
+  <div class="bubbles" id="bubbles"></div>
+
+  <div class="visual" id="visual">
+    <div class="splash" id="splash" aria-hidden="true"></div>
+
+    <div class="bottle-wrap" id="bottleWrap">
+      <img src="float.jpeg" alt="Premium Mango Drink" class="bottle" id="bottle">
+      <div class="ground-glow" aria-hidden="true"></div>
+    </div>
+
+    <!-- slices will be injected here by JS -->
+  </div>
+
+  <div class="content">
+    
+    <h1>HEALTHY JUICE </h1>
+    <p class="lead">Watermelon, passion fruit, lime, lychee, blueberries, pineapple, banana, papaya, mango, and longan., cold-pressed with real fruit — no additives. Bright, refreshing, and made to glow from within. Taste the sun in every sip.fruit-infused beverage which often contains real fruit pieces as seen in the image. The specific ingredients can vary depending on the flavo</p>
+
+    <div class="cards" role="list">
+      <div class="card" role="listitem">
+        <strong>Ingredients</strong>
+        Mango • Kiwi • Lemon • Honey • Mint
       </div>
-      <div class="about-text">
-        <h2>About <span>Fresh</span></h2>
-        <p>Welcome to <strong>Fresh</strong> — where every sip bursts with nature’s finest fruits. Crafted to perfection, our premium drinks deliver the perfect balance of taste, purity, and refreshment.</p>
-        <p><strong>Ingredients:</strong> Sparkling water • Lemon • Watermelon • Kiwi • Strawberry • Mint • Honey</p>
-        <p><strong>Storage:</strong> Keep refrigerated (2–5°C) and enjoy within 3 days.</p>
-        <p><strong>Benefits:</strong> Boosts immunity, hydrates naturally, and enhances your skin glow with antioxidant-rich fruits.</p>
+      <div class="card" role="listitem">
+        <strong>Storage</strong>
+        Keep chilled (2–5°C), best within 3 days.
+      </div>
+      <div class="card" role="listitem">
+        <strong>Benefits</strong>
+        Boosts immunity • Fresh hydration • Natural glow
       </div>
     </div>
-  </section>
 
-  <!-- 🍹 PRODUCTS SECTION -->
-  <section id="products">
-    <h2>Our Premium Drinks</h2>
-    <div class="product-grid">
-      <div class="product-card">
-        <img src="j5.png" alt="Mango Freeze">
-        <div class="product-info">
-          <h3>Mango Freeze</h3>
-          <p>Golden mango pulp blended with fizzy soda and lemon zest — summer luxury in every sip.</p>
-          <p class="price">₹60 / bottle</p>
-          <a href="#" class="buy-btn">Order Now</a>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <img src="j3.png" alt="Berry Blast">
-        <div class="product-info">
-          <h3>Berry Blast</h3>
-          <p>Juicy strawberries, tangy blueberries, and minty fizz come together in a sparkling refresh.</p>
-          <p class="price">₹65 / bottle</p>
-          <a href="#" class="buy-btn">Order Now</a>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <img src="j4.png" alt="Citrus Spark">
-        <div class="product-info">
-          <h3>Citrus Spark</h3>
-          <p>Zesty orange and lemon soda infused with honey and mint — a burst of natural citrus energy.</p>
-          <p class="price">₹55 / bottle</p>
-          <a href="#" class="buy-btn">Order Now</a>
-        </div>
-      </div>
+    <div class="actions">
+      <a class="btn" href="products.html">Explore Products</a>
+      <a class="btn secondary" href="video.html">Watch Video</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- 🎥 VIDEO SECTION -->
-  <section id="video-section">
-    <h2>Watch Our Story</h2>
-    <div class="video-container">
-      <video controls autoplay muted loop playsinline>
-        <source src="make.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
-  </section>
+<footer>
+  © <span id="year"></span> Fresh — Crafted with real fruit.
+</footer>
 
+<script>
+  // small helper to randomize numbers
+  const rnd = (min,max) => Math.random()*(max-min)+min;
+
+  // create animated background bubbles
+  const bubblesRoot = document.getElementById('bubbles');
+  const bubbleCount = 10;
+  for(let i=0;i<bubbleCount;i++){
+    const b = document.createElement('div');
+    b.className='bubble';
+    const size = rnd(80,260);
+    b.style.width = size+'px';
+    b.style.height = size+'px';
+    b.style.left = rnd(-10,90)+'%';
+    b.style.top = rnd(10,90)+'%';
+    b.style.opacity = rnd(0.06,0.18);
+    b.style.animationDuration = rnd(14,28)+'s';
+    b.style.background = `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.04))`;
+    bubblesRoot.appendChild(b);
+  }
+
+  
+  // - slice.png (the uploaded fruit image used for floating slices)
+</script>
 </body>
 </html>
-
